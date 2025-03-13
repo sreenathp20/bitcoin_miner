@@ -19,7 +19,7 @@ class MongoDb:
             res = []
             for d in data:
                 res.append(d)
-        except:
+        except Exception as e:
             res = self.read(collection, query)
         self.db_client.close()
         return res
