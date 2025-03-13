@@ -463,9 +463,15 @@ def block_mine(block_template, coinbase_message, extranonce_start, address, time
                 print(nonce, " ", block_hash.hex(), " ", target_hash.hex())
                 pass
             if nonce % 5000000 == 0:
-                mininginfo = rpc_getmininginfo()
+                # mininginfo = rpc_getmininginfo()
 
-                new_height = int(mininginfo['blocks']) + 1
+                # new_height = int(mininginfo['blocks']) + 1
+                m = MongoDb()
+                data = m.read("mining_block", {})
+                try:
+                    new_height = data[0]['current_block'] + 1
+                except Exception as e:
+                    new_height = None
                 
                 if height != new_height:
                     m = MongoDb()
