@@ -5,7 +5,7 @@ from datetime import datetime
 
 class MongoDb:
     def __init__(self):
-        self.HOST = 'localhost:27017'
+        self.HOST = '13.53.122.102:27017'
         self.DATABASE = 'bitcoin'
         self.db_client = MongoClient(self.HOST)
         self.db = self.db_client[self.DATABASE]
