@@ -2,6 +2,7 @@ import os, json, random, base64
 import urllib.request
 import urllib.error
 import urllib.parse
+from db import MongoDb
 
 RPC_URL = os.environ.get("RPC_URL", "http://127.0.0.1:8332")
 RPC_USER = os.environ.get("RPC_USER", "admin")
@@ -53,3 +54,25 @@ def rpc_getmininginfo():
     except:
         return rpc_getmininginfo()
     return json_out
+
+def rpc_getblocktemplate():
+    try:
+        out = rpc("getblocktemplate", [{"rules": ["segwit"]}])
+        #out["_id"] = 1        
+        in_data = [out]
+        m = MongoDb()
+        m.delete("blocktemplate", {})
+        m = MongoDb()
+        m.insertMany("blocktemplate", in_data)
+        return out
+    except ValueError:
+        return {}
+    
+def getblocktemplate():
+    try:
+        m = MongoDb()
+        data = m.read("blocktemplate", {})
+        if len(data) > 0:
+            return data[0]
+    except ValueError:
+        return {}

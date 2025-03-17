@@ -9,7 +9,7 @@
 
 import subprocess
 import sys
-from utils import rpc, rpc_getmininginfo
+from utils import rpc, rpc_getmininginfo, getblocktemplate
 
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
@@ -50,20 +50,7 @@ RPC_PASS = os.environ.get("RPC_PASS", "admin")
 #     #print("height:", json_out['height'])
 #     return json_out
 
-def rpc_getblocktemplate():
-    try:
-        m = MongoDb()
-        data = m.read("blocktemplate", {})
-        if len(data) > 0:
-            return data[0]
-        out = rpc("getblocktemplate", [{"rules": ["segwit"]}])
-        #out["_id"] = 1        
-        in_data = [out]
-        m = MongoDb()
-        m.insertMany("blocktemplate", in_data)
-        return out
-    except ValueError:
-        return {}
+
 
 
 
@@ -519,13 +506,13 @@ def block_mine(block_template, coinbase_message, extranonce_start, address, time
 
 def standalone_miner(coinbase_message, address, debugnonce_start):
     while True:
-        block_template = rpc_getblocktemplate()
+        block_template = getblocktemplate()
         #print("block_template:", block_template)
 
         mined_block = None
 
         while not mined_block:
-            block_template = rpc_getblocktemplate()
+            block_template = getblocktemplate()
             print("debugnonce_start: ", debugnonce_start)
             print("Mining block template, height {:d}...".format(block_template['height']))
             #def block_mine(block_template, coinbase_message, extranonce_start, address, timeout=None, debugnonce_start=False):

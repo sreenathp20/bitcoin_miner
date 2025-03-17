@@ -1,5 +1,5 @@
 import time
-from utils import rpc, rpc_getmininginfo
+from utils import rpc, rpc_getmininginfo, rpc_getblocktemplate
 from db import MongoDb
 
 while True:
@@ -11,6 +11,7 @@ while True:
     except Exception as e:
         dbinfo = None
     if not dbinfo or dbinfo != minfo['blocks']:
+        rpc_getblocktemplate()
         m = MongoDb()
         m.delete("mining_block", {})
         m = MongoDb()
