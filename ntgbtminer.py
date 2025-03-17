@@ -460,7 +460,7 @@ def block_mine(block_template, coinbase_message, extranonce_start, address, time
             # Recompute the block hash
             block_hash = block_compute_raw_hash(block_header)
             if nonce % 1000000 == 0:
-                print(nonce, " ", block_hash.hex(), " ", target_hash.hex())
+                print("none: "nonce, " extranonce: ",extranonce, " "  block_hash.hex(), " ", target_hash.hex())
                 pass
             if nonce % 5000000 == 0:
                 # mininginfo = rpc_getmininginfo()
