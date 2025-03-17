@@ -9,7 +9,7 @@
 
 import subprocess
 import sys
-from utils import rpc, rpc_getmininginfo, getblocktemplate
+from utils import rpc, rpc_getmininginfo, getblocktemplate, submitblock
 
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
@@ -62,8 +62,7 @@ RPC_PASS = os.environ.get("RPC_PASS", "admin")
 #     json_out = json.loads(out)
     #return rpc("submitblock", [block_submission])
 
-def rpc_submitblock(block_submission, block_hash):
-    return rpc("submitblock", [block_submission])
+
 
 
 ################################################################################
@@ -525,7 +524,7 @@ def standalone_miner(coinbase_message, address, debugnonce_start):
             submission = block_make_submit(mined_block)
 
             #print("Submitting:", submission, "\n")
-            response = rpc_submitblock(submission, block_hash)
+            response = submitblock(submission, block_hash, block_template["height"])
             if response is not None:
                 print("Submission Error: {}".format(response))
                 break

@@ -76,3 +76,20 @@ def getblocktemplate():
             return data[0]
     except ValueError:
         return {}
+    
+def rpc_submitblock(block_submission, height):
+    res = rpc("submitblock", [block_submission])
+    data = {
+        "block_submission_result": res,
+        "height": height
+    }
+    m = MongoDb()
+    m.insertMany("submitblock_result", [data])
+
+def submitblock(block_submission, block_hash, height):
+    data = {
+        "block_submission": block_submission,
+        "height": height
+    }
+    m = MongoDb()
+    m.insertMany("submitblock", [data])
