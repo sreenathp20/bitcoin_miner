@@ -414,7 +414,7 @@ def block_mine(block_template, coinbase_message, extranonce_start, address, time
 
     # Loop through the extranonce
     #extranonce = extranonce_start
-    extranonce = random.randrange(1,0xffffffff)
+    extranonce = random.randrange(1,0xffffffff) if not extranonce_start else extranonce_start
     while extranonce <= 0xffffffff:
         # Update the coinbase transaction with the new extra nonce
         coinbase_script = coinbase_message + int2lehex(extranonce, 8)
@@ -505,7 +505,7 @@ def block_mine(block_template, coinbase_message, extranonce_start, address, time
 ################################################################################
 
 
-def standalone_miner(coinbase_message, address, debugnonce_start):
+def standalone_miner(coinbase_message, address, debugnonce_start, extranonce_start):
     while True:
         block_template = getblocktemplate()
         #print("block_template:", block_template)
@@ -517,7 +517,7 @@ def standalone_miner(coinbase_message, address, debugnonce_start):
             print("debugnonce_start: ", debugnonce_start)
             print("Mining block template, height {:d}...".format(block_template['height']))
             #def block_mine(block_template, coinbase_message, extranonce_start, address, timeout=None, debugnonce_start=False):
-            mined_block, hash_rate, block_hash = block_mine(block_template, coinbase_message, 0, address, None, debugnonce_start)
+            mined_block, hash_rate, block_hash = block_mine(block_template, coinbase_message, extranonce_start, address, None, debugnonce_start)
             if hash_rate:
                 print("    {:.4f} KH/s\n".format(hash_rate / 1000.0))
 
@@ -537,4 +537,4 @@ if __name__ == "__main__":
         print("Usage: {:s} <coinbase message> <block reward address>".format(sys.argv[0]))
         sys.exit(1)
 
-    standalone_miner(sys.argv[1].encode().hex(), sys.argv[2], int(sys.argv[3]) )
+    standalone_miner(sys.argv[1].encode().hex(), sys.argv[2], int(sys.argv[3]), int(sys.argv[4]) )

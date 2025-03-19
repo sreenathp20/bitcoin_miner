@@ -4,8 +4,8 @@ from datetime import datetime
 # end = datetime(2023, 3, 1)
 
 class MongoDb:
-    def __init__(self):
-        self.HOST = "mongodb://admin:admin@13.53.122.102:27017/bitcoin" #/?tls=true&tlsCAFile=/Users/sreenath/Downloads/b000001.pem"
+    def __init__(self, localhost=None):
+        self.HOST = "mongodb://admin:admin@13.53.122.102:27017/bitcoin" if not localhost else 'localhost:27017'
         #self.HOST = 'localhost:27017'
         self.DATABASE = 'bitcoin'
         self.db_client = MongoClient(self.HOST)
