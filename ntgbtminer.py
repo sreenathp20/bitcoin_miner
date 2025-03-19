@@ -9,12 +9,14 @@
 
 import subprocess
 import sys
-from utils import rpc, rpc_getmininginfo, getblocktemplate, submitblock
+
 
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
 install('pymongo')
+
+from utils import rpc, rpc_getmininginfo, getblocktemplate, submitblock
 
 import urllib.request
 import urllib.error
