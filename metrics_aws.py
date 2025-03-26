@@ -36,14 +36,14 @@ for line in lines[1:]:
             inp,out,err = ssh.exec_command('ps aux | grep ntgbtminer', get_pty=True) 
             #print("out: ", out)
             l = out.readlines()
-            
+            ssh.close()
             if len(l) == 4:
                 prc += 2                
             else:
                 np = len(l) - 2
                 prc += np
                 print(f"account: {file} host: {host} {np} process(es) running")
-            ssh.close()
+            
     tot_prc += prc
     print(f"{len(myData)} hosts, account: {file}")
 

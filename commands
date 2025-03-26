@@ -1,0 +1,40 @@
+ scp -r -i b000001.pem ubuntu@13.53.122.102:/home/ubuntu/btc -r -i b000020.pem ubuntu@13.60.215.115:/home/ubuntu/
+
+
+ scp -r -i b000001.pem b000020.pem ubuntu@13.53.122.102:/home/ubuntu/btc/keys
+
+ scp -r -i b000020.pem /home/ubuntu/btc -r -i b000020.pem ubuntu@13.60.215.115:/home/ubuntu/
+
+
+ bitcoind -datadir=./bitcoin_data/ -prune=5000 -txindex=false -rpcuser=admin -rpcpassword=admin
+
+ sudo systemctl start mongod
+sudo systemctl stop mongod
+sudo systemctl status mongod
+
+
+
+ssh -i b000001.pem ubuntu@13.53.122.102
+ssh -i b000020.pem ubuntu@13.60.215.115
+
+
+ # to run mongo db in ubuntu server
+
+ cat /etc/lsb-release
+ sudo apt-get install gnupg curl
+ curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \ sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg \ --dearmor
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo systemctl start mongod
+
+
+# set up momngo shell
+wget https://downloads.mongodb.com/compass/mongodb-mongosh_2.4.2_amd64.deb
+dpkg -i mongodb-mongosh_2.4.2_amd64.deb
+
+# setup mongo databse
+use bitcoin
+
+db.createUser({ user: "admin", pwd: "admin", roles: [{ role: "readWrite", db: "bitcoin" }] })
+
