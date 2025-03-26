@@ -6,7 +6,7 @@ from datetime import datetime
 class MongoDb:
     def __init__(self, localhost=None):
         #self.HOST = "mongodb://admin:admin@13.53.122.102:27017/bitcoin" if not localhost else 'localhost:27017'
-        self.HOST = "mongodb://admin:admin@13.60.215.115:27017/bitcoin" if not localhost else 'localhost:27017'
+        self.HOST = "mongodb://admin:admin@13.60.88.225:27017/bitcoin" if not localhost else 'localhost:27017'
         
         #self.HOST = 'localhost:27017'
         self.DATABASE = 'bitcoin'
